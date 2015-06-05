@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="TopTitleView">
+        <attr name="text_left" format="reference" />
+        <attr name="text_right" format="reference" />
+        <attr name="text_title" format="reference" />
+        <attr name="background" format="reference" />
+        <attr name="background_left" format="reference" />
+        <attr name="background_right" format="reference" />
+        <attr name="background_title" format="reference" />
+    </declare-styleable>
+
+</resources>
