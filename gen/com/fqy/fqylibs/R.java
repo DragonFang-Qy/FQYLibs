@@ -126,10 +126,20 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static int textSize72=0x7f060032;
     }
     public static final class drawable {
-        public static int ic_launcher=0x7f020000;
+        public static int common_listview_headview_red_arrow=0x7f020000;
+        public static int common_progressbar=0x7f020001;
+        public static int ic_launcher=0x7f020002;
+    }
+    public static final class id {
+        public static int header_arrow_iv=0x7f090000;
+        public static int header_pb=0x7f090001;
+        public static int header_state_tv=0x7f090002;
+        public static int header_time_tv=0x7f090003;
     }
     public static final class layout {
         public static int activity_main=0x7f030000;
+        public static int listview_footer=0x7f030001;
+        public static int listview_header=0x7f030002;
     }
     public static final class string {
         public static int ResponseCodeNot200=0x7f070002;
