@@ -14,7 +14,6 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.fqy.fqylibs.R;
@@ -28,7 +27,8 @@ import com.fqy.fqylibs.interfaces.OnUpDownPullRefreshListener;
  * @date 2015年6月5日上午11:37:13
  * @version V1.0
  */
-public class UpDownRefershListView extends ListView implements OnScrollListener {
+public class UpDownRefershListView extends ListView implements
+		OnScrollListener, OnUpDownPullRefreshListener {
 
 	private static final String TAG = "RefreshListView";
 	private int firstVisibleItemPosition; // 屏幕显示在第一个的item的索引
@@ -257,10 +257,28 @@ public class UpDownRefershListView extends ListView implements OnScrollListener 
 
 			header_state_tv.setText("正在刷新中...");
 			header_pb.setVisibility(View.VISIBLE);
+
 			break;
 		default:
 			break;
 		}
 	}
 
+	public void setOnUpDownPullRefreshListener(
+			OnUpDownPullRefreshListener upDownRefreshListener) {
+//		if (upDownPullRefreshListener != null) {
+			this.upDownPullRefreshListener = upDownRefreshListener;
+
+//		}
+
+	}
+
+	@Override
+	public void onDownPullRefreshListener() {
+	}
+
+	@Override
+	public void onUpPullRefreshListener() {
+
+	}
 }

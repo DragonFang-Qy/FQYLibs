@@ -3,6 +3,7 @@ package com.fqy.fqylibs.activity.adapter;
 import java.util.List;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -19,10 +20,12 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
 
 	protected Context myContext;
 	protected List<T> myList;
+	protected LayoutInflater inflater;
 
 	public BaseListAdapter(Context context, List<T> list) {
 		myContext = context;
 		myList = list;
+		inflater = LayoutInflater.from(context);
 	}
 
 	@Override

@@ -17,9 +17,9 @@ import android.content.SharedPreferences.Editor;
  * @date 2015年5月27日上午10:06:06
  * @version V1.0
  */
-public class SharedPreferencesUtils {
+public class UtilsSharedPreferences {
 
-	protected static SharedPreferencesUtils sp;
+	protected static UtilsSharedPreferences sp;
 	protected static SharedPreferences preferences;
 	protected static Editor edit;
 
@@ -28,7 +28,7 @@ public class SharedPreferencesUtils {
 	 * 
 	 * @param context
 	 */
-	protected SharedPreferencesUtils(Context context) {
+	protected UtilsSharedPreferences(Context context) {
 		preferences = context.getSharedPreferences("FQYData",
 				Context.MODE_PRIVATE);
 		edit = preferences.edit();
@@ -40,7 +40,7 @@ public class SharedPreferencesUtils {
 	 * @param context
 	 * @param name
 	 */
-	protected SharedPreferencesUtils(Context context, String name) {
+	protected UtilsSharedPreferences(Context context, String name) {
 		preferences = context.getSharedPreferences(name, Context.MODE_PRIVATE);
 		edit = preferences.edit();
 	}

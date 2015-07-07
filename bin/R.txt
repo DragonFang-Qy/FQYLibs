@@ -74,7 +74,6 @@ int dimen textSize56 0x7f060031
 int dimen textSize72 0x7f060032
 int drawable common_listview_headview_red_arrow 0x7f020000
 int drawable common_progressbar 0x7f020001
-int drawable ic_launcher 0x7f020002
 int id header_arrow_iv 0x7f090000
 int id header_pb 0x7f090001
 int id header_state_tv 0x7f090002

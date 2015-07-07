@@ -128,7 +128,6 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     public static final class drawable {
         public static int common_listview_headview_red_arrow=0x7f020000;
         public static int common_progressbar=0x7f020001;
-        public static int ic_launcher=0x7f020002;
     }
     public static final class id {
         public static int header_arrow_iv=0x7f090000;

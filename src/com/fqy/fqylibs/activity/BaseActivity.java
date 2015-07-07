@@ -21,7 +21,7 @@ import com.fqy.fqylibs.manage.FQYActivityManage;
 public abstract class BaseActivity extends FragmentActivity {
 	/** 基类(Activity)所使用的TAG标签 */
 	public static String TAG = null;
-	protected Context baseContext;
+	public static Context baseContext;
 
 	protected FQYActivityManage activityManage;
 
@@ -40,7 +40,11 @@ public abstract class BaseActivity extends FragmentActivity {
 
 		setContentView();
 		initView();
-		setOnListener();
+		initListener();
+		getHttpData();
+
+		baseContext = getBaseContext();
+
 	}
 
 	/**
@@ -71,7 +75,22 @@ public abstract class BaseActivity extends FragmentActivity {
 	 * @date 2015年5月28日下午6:04:26
 	 * @version V1.0
 	 */
-	public abstract void setOnListener();
+	public abstract void initListener();
+
+	/**
+	 * 获得网路数据
+	 * 
+	 * @author: Fang Qingyou
+	 * @date 2015年6月26日下午2:22:45
+	 */
+	public abstract void getHttpData();
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		// 刷新数据
+		this.getHttpData();
+	}
 
 	@Override
 	protected void onDestroy() {

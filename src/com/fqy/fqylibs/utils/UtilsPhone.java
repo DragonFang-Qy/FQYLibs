@@ -21,7 +21,7 @@ import android.net.NetworkInfo;
  * @date 2015年5月27日上午9:43:40
  * @version V1.0
  */
-public class PhoneUtils {
+public class UtilsPhone {
 
 	/**
 	 * 验证是不是手机号码

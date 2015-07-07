@@ -5,9 +5,9 @@ import android.util.Log;
 import com.fqy.fqylibs.BuildConfig;
 import com.fqy.fqylibs.activity.BaseActivity;
 
-public class LogUtils {
+public class UtilsLog {
 
-	private LogUtils() {
+	private UtilsLog() {
 
 	}
 

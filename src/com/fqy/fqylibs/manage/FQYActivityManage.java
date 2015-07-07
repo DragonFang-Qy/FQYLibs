@@ -4,7 +4,7 @@ import android.app.Activity;
 
 import java.util.Stack;
 
-import com.fqy.fqylibs.utils.LogUtils;
+import com.fqy.fqylibs.utils.UtilsLog;
 
 public class FQYActivityManage {
 
@@ -52,7 +52,7 @@ public class FQYActivityManage {
 		}
 		activityStack.add(activity);
 
-		LogUtils.e("push入栈 " + activity.toString());
+		UtilsLog.e("push入栈 " + activity.toString());
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class FQYActivityManage {
 		if (!activityStack.empty()) {
 			lastElement = activityStack.lastElement();
 
-			LogUtils.e("pull出栈 " + lastElement.toString());
+			UtilsLog.e("pull出栈 " + lastElement.toString());
 
 			lastElement.finish();
 			activityStack.remove(lastElement);
