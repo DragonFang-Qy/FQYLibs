@@ -68,13 +68,20 @@ public class BasePagerAdapter<T> extends PagerAdapter {
 	@Override
 	public void destroyItem(ViewGroup container, int position, Object object) {
 		super.destroyItem(container, position, object);
+		if (isInfiniteLoop && myList.size() != 0) {
+			position = position % myList.size();
+		}
 		((ViewPager) container).removeView((View) myList.get(position));
 	}
 
 	@Override
 	public Object instantiateItem(View container, int position) {
-		((ViewPager) container).addView((View) myList.get(position));
-		return myList.get(position);
+		if (isInfiniteLoop && myList.size() > 0) {
+			position = position % myList.size();
+
+			((ViewPager) container).addView((View) myList.get(position));
+			return myList.get(position);
+		}
 	}
 
 }

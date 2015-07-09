@@ -9,6 +9,7 @@ import android.view.Window;
 import com.fqy.fqylibs.FQYApplication;
 import com.fqy.fqylibs.R;
 import com.fqy.fqylibs.manage.FQYActivityManage;
+import com.lidroid.xutils.BitmapUtils;
 
 /**
  * @Title: BaseActivity.java
@@ -24,6 +25,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	public static Context baseContext;
 
 	protected FQYActivityManage activityManage;
+	protected BitmapUtils myBitmapUtils;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -44,6 +46,7 @@ public abstract class BaseActivity extends FragmentActivity {
 		getHttpData();
 
 		baseContext = getBaseContext();
+		myBitmapUtils = new BitmapUtils(baseContext);
 
 	}
 

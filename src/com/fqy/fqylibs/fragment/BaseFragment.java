@@ -1,6 +1,7 @@
 package com.fqy.fqylibs.fragment;
 
 import com.fqy.fqylibs.activity.BaseActivity;
+import com.lidroid.xutils.BitmapUtils;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 
 public abstract class BaseFragment extends Fragment {
 	protected LayoutInflater myInflater;
+	protected BitmapUtils myBitmapUtils;
 	protected View view;
 	public static Context baseContext;
 
@@ -23,6 +25,7 @@ public abstract class BaseFragment extends Fragment {
 		initListener();
 		initHttpData();
 		baseContext = getActivity();
+		myBitmapUtils = new BitmapUtils(baseContext);
 		return view;
 	}
 
