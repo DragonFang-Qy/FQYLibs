@@ -3,6 +3,7 @@ package com.fqy.fqylibs.activity.adapter;
 import java.util.List;
 
 import com.lidroid.xutils.BitmapUtils;
+import com.lidroid.xutils.bitmap.core.BitmapSize;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -25,13 +26,9 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
 	protected LayoutInflater myInflater;
 	protected T myModel;
 
-	protected BitmapUtils myBitmapUtils;
-
 	public BaseListAdapter(Context context, List<T> list) {
 		myContext = context;
 		myList = list;
-		myInflater = LayoutInflater.from(context);
-		myBitmapUtils = new BitmapUtils(context);
 	}
 
 	@Override

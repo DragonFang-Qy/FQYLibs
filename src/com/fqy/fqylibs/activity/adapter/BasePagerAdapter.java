@@ -78,10 +78,10 @@ public class BasePagerAdapter<T> extends PagerAdapter {
 	public Object instantiateItem(View container, int position) {
 		if (isInfiniteLoop && myList.size() > 0) {
 			position = position % myList.size();
-
-			((ViewPager) container).addView((View) myList.get(position));
-			return myList.get(position);
 		}
+
+		((ViewPager) container).addView((View) myList.get(position));
+		return myList.get(position);
 	}
 
 }
