@@ -14,9 +14,8 @@ import com.lidroid.xutils.BitmapUtils;
 /**
  * @Title: BaseActivity.java
  * @Package com.fqy.fqylibs.activity
- * @Description: TODO 欢迎页
  * @author: Fang Qingyou
- * @date 2015年5月28日下午6:04:23
+ * @date 2015年7月11日下午4:37:38
  * @version V1.0
  */
 public abstract class BaseActivity extends FragmentActivity {
@@ -36,8 +35,10 @@ public abstract class BaseActivity extends FragmentActivity {
 		// 用于确定当前界面是属于哪个活动(Activity), 让新加入开发的人快速锁定所在的界面,不得擅自移除.
 		this.TAG = getClass().getSimpleName();
 
+		// 获得 Activity栈对象
 		activityManage = ((FQYApplication) this.getApplication())
 				.getActivityManage();
+		// 压栈
 		activityManage.pushActivity(this);
 
 		setContentView();

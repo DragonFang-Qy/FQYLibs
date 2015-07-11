@@ -6,6 +6,15 @@ import java.util.Stack;
 
 import com.fqy.fqylibs.utils.UtilsLog;
 
+/**
+ * 自定义 activity 管理器
+ * 
+ * @Title: FQYActivityManage.java
+ * @Package com.fqy.fqylibs.manage
+ * @author: Fang Qingyou
+ * @date 2015年7月11日下午5:51:55
+ * @version V1.0
+ */
 public class FQYActivityManage {
 
 	private static FQYActivityManage manage;
@@ -84,24 +93,24 @@ public class FQYActivityManage {
 
 	}
 
-	// /**
-	// * 保留指定activity
-	// */
-	// public void pullAllActivity(Class<?> cls) {
-	// Activity activity = getCurrentStackTopActivity();
-	// int size = activityStack.size();
-	// for (int i = 0; i < size; i++) {
-	//
-	// if (activity == null) {
-	// break;// 栈中没有activity 不做操作
-	// }
-	//
-	// if (activity.getClass().equals(cls)) {
-	// break;
-	// }
-	//
-	// size--;
-	// }
-	// }
+	/**
+	 * 保留指定activity
+	 */
+	public void pullAllActivityExceptOne(Class<?> cls) {
+		Activity activity = getCurrentStackTopActivity();
+		int size = activityStack.size();
+		for (int i = 0; i < size; i++) {
+
+			if (activity == null) {
+				break;// 栈中没有activity 不做操作
+			}
+
+			if (activity.getClass().equals(cls)) {
+				break;// 于指定类名相同时 不操作
+			}
+
+			activityStack.remove(i);
+		}
+	}
 
 }
