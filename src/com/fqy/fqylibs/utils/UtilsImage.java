@@ -42,7 +42,8 @@ public class UtilsImage {
 			inSampleSize = heightFlag < widthFlag ? heightFlag : widthFlag;
 		}
 
-		return 0;
+		return inSampleSize % 2 == 0 ? inSampleSize : inSampleSize - 1;
+		// 官方文档中说，inSampleSize这个属性最好是2的倍数，这样处理更快，效率更高。
 	}
 
 }
