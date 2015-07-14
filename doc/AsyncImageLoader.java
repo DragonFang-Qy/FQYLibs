@@ -53,48 +53,6 @@ public class AsyncImageLoader {
 		}
 	}
 
-	@SuppressLint("NewApi")
-	public static Drawable loadImageFromUrl(String urlPath, String imageName) {
-		InputStream stream = null;
-		try {
-			stream = new URL(urlPath).openStream();
-			File file = new File(FILEPATH + imageName);
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-			if (file.exists()) {
-				file.delete();
-				file.createNewFile();
-			}
-			FileOutputStream fileOutputStream = new FileOutputStream(file);
-			byte[] buf = new byte[1024];
-			int ins;
-			while ((ins = stream.read(buf)) != -1) {
-				fileOutputStream.write(buf, 0, ins);
-			}
-			fileOutputStream.close();
-
-			return Drawable.createFromPath(FILEPATH + imageName);
-		} catch (Exception e) {
-			e.printStackTrace();
-			Log.e("exception:", urlPath);
-			Drawable d = SoSoApplication.context
-					.getDrawable(R.drawable.icon_image);
-			Log.e("drawable", d.toString());
-			return d;
-			// throw new RuntimeException(e);
-		} finally {
-			try {
-				if (stream != null) {
-					stream.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-	}
-
 	public Drawable loadDrawable(final String imageUrl,
 			final ImageCallback imagecallback) {
 		Drawable drawable = null;
@@ -166,21 +124,10 @@ public class AsyncImageLoader {
 	}
 
 	public void loadDrawable(final String imageUrl, final ImageView imageView) {
-		Drawable drawable = null;
-
-		String imageBaseName[] = imageUrl.split("\\/");
-		final String iName = imageBaseName[imageBaseName.length - 1];
-		String imName[] = iName.split("\\.");
-		final String imageName = imName[0];
-
-		drawable = imageCache.get(imageName);
-		if (drawable != null) {
-			imageView.setVisibility(View.VISIBLE);
-			imageView.setImageDrawable(drawable);
-			return;
-		}
 
 		{
+
+			Drawable drawable = null;
 			File file = new File(FILEPATH + iName);
 			if (file.exists()) {
 				drawable = Drawable.createFromPath(FILEPATH + iName);
@@ -192,6 +139,28 @@ public class AsyncImageLoader {
 				}
 			}
 		}
+		// http://g.31ss.com/images/ads/a.jpg
+		String imageBaseName[] = imageUrl.split("/");
+		final String iName = imageBaseName[imageBaseName.length - 1];
+		String imName[] = iName.split("\\.");
+		final String imageName = imName[0];
+
+		
+		
+		
+		
+		
+		drawable = imageCache.get(imageName);
+		if (drawable != null) {
+			imageView.setVisibility(View.VISIBLE);
+			imageView.setImageDrawable(drawable);
+			return;
+		}
+		
+		
+		
+		
+		
 
 		final CallbackImpl imagecallback = new CallbackImpl(imageView);
 		imagecallback.setTag(imageUrl);

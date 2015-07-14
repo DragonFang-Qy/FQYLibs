@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -17,6 +19,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.support.v4.util.LruCache;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.fqy.fqylibs.R;
 
@@ -32,6 +35,8 @@ import com.fqy.fqylibs.R;
 public class UtilsAsyncImageLoader {
 	private LruCache<String, Drawable> imageCache;
 	private static String FILEPATH;
+
+	private ExecutorService service = Executors.newSingleThreadExecutor();
 
 	public UtilsAsyncImageLoader(String filePath) {
 
@@ -56,6 +61,14 @@ public class UtilsAsyncImageLoader {
 		}
 	}
 
+	/**
+	 * 从URL 加载图片
+	 * 
+	 * @author: Fang Qingyou
+	 * @date 2015年7月14日下午1:23:47
+	 * @param view
+	 * @param urlPath
+	 */
 	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
 	public static <T extends View> void loadImageFromUrl(T view, String urlPath) {
@@ -66,10 +79,7 @@ public class UtilsAsyncImageLoader {
 		try {
 			stream = new URL(urlPath).openStream();
 
-			file = new File(
-					FILEPATH
-							+ urlPath.substring(urlPath.length() - 10,
-									urlPath.length()));
+			file = new File(FILEPATH + UtilsMD5.GetMD5Code16(urlPath));
 
 			if (!file.exists()) {
 				file.createNewFile();
@@ -86,7 +96,8 @@ public class UtilsAsyncImageLoader {
 				outputStream.write(bs, 0, flag);
 			}
 
-			Bitmap smallBitmap = UtilsImage.getSmallBitmap(file.getAbsolutePath());
+			Bitmap smallBitmap = UtilsImage.getSmallBitmap(file
+					.getAbsolutePath());
 
 			view.setBackgroundDrawable(new BitmapDrawable(view.getResources(),
 					smallBitmap));
@@ -116,5 +127,37 @@ public class UtilsAsyncImageLoader {
 
 	}
 
+	public void loadDrawable(final String imageUrl, final ImageView imageView) {
 
+		Drawable drawable = null;
+		String fileName = FILEPATH + UtilsMD5.GetMD5Code16(imageUrl);
+		File file = new File(fileName);
+		if (file.exists()) {
+			drawable = new BitmapDrawable(imageView.getResources(),
+					UtilsImage.getSmallBitmap(fileName));
+			if (drawable != null) {
+				imageCache.put(fileName, drawable);
+				imageView.setVisibility(View.VISIBLE);
+				imageView.setImageDrawable(drawable);
+				return;
+			}
+		}
+
+		drawable = imageCache.get(fileName);
+
+		if (drawable != null) {
+			imageView.setVisibility(View.VISIBLE);
+			imageView.setImageDrawable(drawable);
+			return;
+		}
+		
+		service.submit(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	}
 }

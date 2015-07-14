@@ -21,7 +21,7 @@ public class UtilsImage {
 		options.inJustDecodeBounds = true; // 设置为true，只读边框，不读内容
 		BitmapFactory.decodeFile(fileName, options);
 
-		options.inSampleSize = calculateInSampleSize(options, 480, 800);
+		options.inSampleSize = calculateInSampleSize(options, 400, 400);
 
 		options.inJustDecodeBounds = false;
 		return BitmapFactory.decodeFile(fileName, options);
