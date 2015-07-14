@@ -86,7 +86,7 @@ public class UtilsAsyncImageLoader {
 				outputStream.write(bs, 0, flag);
 			}
 
-			Bitmap smallBitmap = getSmallBitmap(file.getAbsolutePath());
+			Bitmap smallBitmap = UtilsImage.getSmallBitmap(file.getAbsolutePath());
 
 			view.setBackgroundDrawable(new BitmapDrawable(view.getResources(),
 					smallBitmap));
@@ -116,39 +116,5 @@ public class UtilsAsyncImageLoader {
 
 	}
 
-	private static Bitmap getSmallBitmap(String fileName) {
-		BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(fileName, options);
-		int imageHeight = options.outHeight;
-		int imageWidth = options.outWidth;
 
-		options.inSampleSize = calculateInSampleSize(options, imageHeight,
-				imageWidth);
-
-		// Decode bitmap with inSampleSize set
-		options.inJustDecodeBounds = false;
-		return BitmapFactory.decodeFile(fileName, options);
-
-	}
-
-	private static int calculateInSampleSize(BitmapFactory.Options options,
-			int reqWidth, int reqHeight) {
-		// Raw height and width of image
-		int outHeight = options.outHeight;
-		int outWidth = options.outWidth;
-
-		int inSampleSize = 1;
-
-		if (outHeight > reqHeight || outWidth > reqWidth) {
-
-			inSampleSize = Math.round((float) outHeight / (float) reqHeight) < Math
-					.round((float) outWidth / (float) reqWidth) ? Math
-					.round((float) outHeight / (float) reqHeight) : Math
-					.round((float) outWidth / (float) reqWidth);
-		}
-
-		return inSampleSize % 2 == 0 ? inSampleSize : inSampleSize - 1;
-		// 官方文档中说，inSampleSize这个属性最好是2的倍数，这样处理更快，效率更高。。
-	}
 }
