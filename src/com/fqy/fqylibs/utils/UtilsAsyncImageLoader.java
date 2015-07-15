@@ -10,18 +10,16 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.util.LruCache;
 import android.view.View;
 import android.widget.ImageView;
-
-import com.fqy.fqylibs.R;
 
 /**
  * @Title: UtilsAsyncImageLoader.java
@@ -130,7 +128,7 @@ public class UtilsAsyncImageLoader {
 	public void loadDrawable(final String imageUrl, final ImageView imageView) {
 
 		Drawable drawable = null;
-		String fileName = FILEPATH + UtilsMD5.GetMD5Code16(imageUrl);
+		final String fileName = FILEPATH + UtilsMD5.GetMD5Code16(imageUrl);
 		File file = new File(fileName);
 		if (file.exists()) {
 			drawable = new BitmapDrawable(imageView.getResources(),
@@ -150,14 +148,28 @@ public class UtilsAsyncImageLoader {
 			imageView.setImageDrawable(drawable);
 			return;
 		}
-		
+
+		imageView.setTag(imageUrl);
+		final Handler handler = new Handler() {
+			public void handleMessage(Message msg) {
+
+				loadImageFromUrl(imageView, imageUrl);
+				Drawable drawable = new BitmapDrawable(
+						imageView.getResources(),
+						UtilsImage.getSmallBitmap(fileName));
+				imageCache.put(fileName, drawable);
+
+			}
+		};
 		service.submit(new Runnable() {
-			
+
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
-				
+				Message message = new Message();
+				handler.sendMessage(message);
 			}
+
 		});
+
 	}
 }

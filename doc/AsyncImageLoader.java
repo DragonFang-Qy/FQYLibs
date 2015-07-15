@@ -184,7 +184,6 @@ public class AsyncImageLoader {
 					Bundle bundle = new Bundle();
 
 					bundle.putString("name", imageUrl);
-
 					message.setData(bundle);
 
 					handler.sendMessage(message);
@@ -194,66 +193,7 @@ public class AsyncImageLoader {
 
 	}
 
-	public void loadHeadDrawable(final String imageUrl,
-			final ImageView imageView) {
-		Drawable drawable = null;
-
-		String imageBaseName[] = imageUrl.split("\\/");
-		final String iName = imageBaseName[imageBaseName.length - 1];
-		String imName[] = iName.split("\\.");
-		final String imageName = imName[0];
-
-		drawable = imageCache.get(imageName);
-		if (drawable != null) {
-			imageView.setVisibility(View.VISIBLE);
-			imageView.setImageDrawable(drawable);
-			return;
-		}
-
-		// {
-		// File file = new File(FILEPATH + iName);
-		// if (file.exists()) {
-		// drawable = Drawable.createFromPath(FILEPATH + iName);
-		// if (drawable != null) {
-		// imageCache.put(imageName, drawable);
-		// imageView.setVisibility(View.VISIBLE);
-		// imageView.setImageDrawable(drawable);
-		// return;
-		// }
-		// }
-		// }
-
-		final CallbackImpl imagecallback = new CallbackImpl(imageView);
-		imagecallback.setTag(imageUrl);
-
-		final Handler handler = new Handler() {
-			public void handleMessage(Message msg) {
-				imagecallback.imageLoaded(msg);
-			}
-		};
-		service.submit(new Runnable() {
-
-			@Override
-			public void run() {
-				Drawable drawable = loadImageFromUrl(imageUrl, iName);
-
-				if (drawable != null) {
-					imageCache.put(imageName, drawable);
-
-					Message message = handler.obtainMessage(0, drawable);
-
-					Bundle bundle = new Bundle();
-
-					bundle.putString("name", imageUrl);
-
-					message.setData(bundle);
-
-					handler.sendMessage(message);
-				}
-			}
-		});
-
-	}
+	
 
 	// public Drawable loadDrawable(final String imageName, final String
 	// imageUrl,final ImageCallback imagecallback) {
