@@ -1,6 +1,7 @@
 package com.fqy.fqylibs.utils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,9 +23,10 @@ import android.view.View;
 import android.widget.ImageView;
 
 /**
+ * 异步加载图片工具类
+ * 
  * @Title: UtilsAsyncImageLoader.java
  * @Package com.fqy.fqylibs.utils
- * @Description: TODO 欢迎页
  * @author: Fang Qingyou
  * @date 2015年7月11日上午9:24:13
  * @version V1.0
@@ -38,29 +40,34 @@ public class UtilsAsyncImageLoader {
 
 	public UtilsAsyncImageLoader(String filePath) {
 
-		if (imageCache == null) {
+		if (imageCache == null) {// 初始化，4Mb内存
 			imageCache = new LruCache<String, Drawable>(4 * 1024 * 1024);
-
 		}
 
 		FILEPATH = Environment.getDownloadCacheDirectory() + "/imageCache";
 		makeDir();
 	}
 
+	/**
+	 * 创建文件夹
+	 * 
+	 * @author: Fang Qingyou
+	 * @date 2015年7月16日下午3:58:10
+	 */
 	private static void makeDir() {
 		File fileDir = new File(FILEPATH);
 		if (!fileDir.exists()) {
 			fileDir.mkdirs();
-			// try {
-			// new File(FILEPATH + ".nomedia").createNewFile();
-			// } catch (IOException e) {
-			// e.printStackTrace();
-			// }
+			try {// 屏蔽资源
+				new File(FILEPATH + ".nomedia").createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 	/**
-	 * 从URL 加载图片
+	 * 从URL 加载图片，无缓存
 	 * 
 	 * @author: Fang Qingyou
 	 * @date 2015年7月14日下午1:23:47
@@ -94,8 +101,12 @@ public class UtilsAsyncImageLoader {
 				outputStream.write(bs, 0, flag);
 			}
 
+			// 压缩大小
 			Bitmap smallBitmap = UtilsImage.getSmallBitmap(file
 					.getAbsolutePath());
+
+			// 压缩质量
+			smallBitmap.compress(Bitmap.CompressFormat.JPEG, 85, outputStream);
 
 			view.setBackgroundDrawable(new BitmapDrawable(view.getResources(),
 					smallBitmap));
@@ -125,11 +136,23 @@ public class UtilsAsyncImageLoader {
 
 	}
 
-	public void loadDrawable(final String imageUrl, final ImageView imageView) {
+	private String fileName;
+	private File file;
+
+	/**
+	 * 从URL 加载图片，有缓存
+	 * 
+	 * @author: Fang Qingyou
+	 * @date 2015年7月16日下午4:02:22
+	 * @param imageUrl
+	 * @param imageView
+	 */
+	public void loadImageFromUrl(final String imageUrl,
+			final ImageView imageView) {
 
 		Drawable drawable = null;
-		final String fileName = FILEPATH + UtilsMD5.GetMD5Code16(imageUrl);
-		File file = new File(fileName);
+		fileName = FILEPATH + UtilsMD5.GetMD5Code16(imageUrl);
+		file = new File(fileName);
 		if (file.exists()) {
 			drawable = new BitmapDrawable(imageView.getResources(),
 					UtilsImage.getSmallBitmap(fileName));
@@ -154,10 +177,32 @@ public class UtilsAsyncImageLoader {
 			public void handleMessage(Message msg) {
 
 				loadImageFromUrl(imageView, imageUrl);
-				Drawable drawable = new BitmapDrawable(
-						imageView.getResources(),
-						UtilsImage.getSmallBitmap(fileName));
-				imageCache.put(fileName, drawable);
+				if (file.exists()) {
+					Bitmap smallBitmap = UtilsImage.getSmallBitmap(fileName);
+					FileOutputStream outputStream = null;
+					try {
+						outputStream = new FileOutputStream(file);
+
+						smallBitmap.compress(Bitmap.CompressFormat.JPEG, 85,
+								outputStream);
+
+						Drawable drawable = new BitmapDrawable(
+								imageView.getResources(), smallBitmap);
+
+						imageCache.put(fileName, drawable);
+
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					} finally {
+						if (outputStream != null) {
+							try {
+								outputStream.close();
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+				}
 
 			}
 		};
