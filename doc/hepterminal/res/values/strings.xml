@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">hepterminal</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- baseactivity：没有可用网络 -->
+    <string name="text1">没有可用网络</string>
+
+    <!-- baseactivity：使用移动网络或开启Wifi? -->
+    <string name="text2">使用移动网络或开启Wifi?</string>
+
+    <!-- baseactivity：使用移动网络 -->
+    <string name="text3">使用移动网络</string>
+
+    <!-- baseactivity：使用WIFI -->
+    <string name="text4">使用WIFI</string>
+
+</resources>

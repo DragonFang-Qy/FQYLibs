@@ -1,0 +1,67 @@
+
+
+1.com.hep.terminalhep					--|一级页面
+ 
+2.com.hep.terminalhep.adapters			--|列表适配器（各种adaper）
+
+3.com.hep.terminalhep.config			--|重写父类属性，控制器和等上层结构（activity，application）
+
+4.com.hep.terminalhep.customer			--|自定义view部分
+
+5.com.hep.terminalhep.doc				--|说明文档（编译不进apk）
+
+6.com.hep.terminalhep.inject			--|注解和反射，动态绑定资源(大规模view资源绑定存在性能问题)
+
+7.com.hep.terminalhep.models			--|数据模型，为接口提供数据支持
+
+8.com.hep.terminalhep.repositories		--|接口配置信息（ip地址，接口地址等数据交互协议数据）
+
+9.com.hep.terminalhep.sdata				--|静态逻辑数据位置（标签数据，卡榫数据）
+
+10.com.hep.terminalhep.utils			--|非数据相关工具栈（核心工具：异步，log日志输出）
+
+11.com.hep.terminalhep.webapi			--|协议封装（基于http协议）
+
+12.com.terminalhep.data.utils			--|数据相关工具栈（数据翻转，解析）
+
+13.com.terminalhep.data.ui				--|view视图分配目录（存在并行目录）
+
+ 	缺口（日志采集和bug上报）
+
+补充：
+
+1.注解： java——>java code-->code style
+
+${filecomment}
+
+${package_declaration}
+/**
+ * @Title: @${file_name}
+ * @author zhangj
+ * @version 1.0
+ * @date ${date}
+ */
+${typecomment}
+
+${type_declaration}	
+
+
+2.log输出范例
+
+LogManager.getLogger().d("keyvalues: %s, keyvalues: %s",values, values);
+
+3.常量文本数据
+
+<!-- 文件名称：提示内容 -->
+<string name="text4">提示内容</string>
+引用：R.string.text4
+
+4.SharedPreferences使用
+	get set 方法提供数据生产和消费，所有实现内容并轨到工具部分，ui不做
+	
+5.数据请求
+	－－｜ApiEnvironment.java添加方法名称
+	－－｜AccountNmberInformation 填充请求数据模型，接收数据模型
+	－－｜view 调用 AccountNmberInformation
+
+	
