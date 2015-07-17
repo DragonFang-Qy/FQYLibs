@@ -70,7 +70,6 @@ public class UtilsImage {
 		return bitmap;
 	}
 
-
 	/** 压缩图片，不处理反转信息
 	 * @author: Fang Qingyou
 	 * @date 2015年7月16日下午4:20:59    
@@ -98,46 +97,11 @@ public class UtilsImage {
 
 	public static Bitmap getCompressBitmap(Context context, String filePath, int width, int height) {
 		Bitmap bitmap = getSmallBitmap();
+		Bitmap bitmap = getSmallBitmap(filePath, width, height);
 	}
 	
 	{
-		/**
-		 * 得到小于要求宽高的图片 不处理翻转信息
-		 * 
-		 * @param filePath
-		 * @param width
-		 * @param height
-		 * @return
-		 */
-		public static Bitmap getComPressBitmap(String filePath, int width, int height) {
-			BitmapFactory.Options ops = new BitmapFactory.Options();
-			ops.inJustDecodeBounds = true;
-			BitmapFactory.decodeFile(filePath, ops);
-			ops.inSampleSize = calculateInSampleSize(ops, width, height);
-			ops.inPreferredConfig = Bitmap.Config.RGB_565;
-			ops.inJustDecodeBounds = false;
-
-			FileInputStream is = null;
-			Bitmap bitmap = null;
-			try {
-				is = new FileInputStream(filePath);
-				bitmap = BitmapFactory.decodeFileDescriptor(is.getFD(), null, ops);
-				return bitmap;
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				try {
-					if (null != is) {
-						is.close();
-					}
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			return null;
-		}
-
+	
 		/**
 		 * 某些图片带反转信息 需要在读取时恢复过来
 		 * 
