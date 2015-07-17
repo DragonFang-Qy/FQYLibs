@@ -1,5 +1,6 @@
 package com.fqy.fqylibs.utils;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import android.graphics.Bitmap;
@@ -76,8 +77,22 @@ public class UtilsImage {
 	 * @param fileName
 	 * @return
 	 */
+	public static Bitmap getSmallBitmap(String fileName,
+			FileOutputStream outputStream) {
+		Bitmap bitmap = getSmallBitmap(fileName, 400, 800, outputStream);
+		return bitmap;
+	}
+
+	/**
+	 * 压缩图片，不处理反转信息
+	 * 
+	 * @author: Fang Qingyou
+	 * @date 2015年7月16日下午4:15:38
+	 * @param fileName
+	 * @return
+	 */
 	public static Bitmap getSmallBitmap(String fileName) {
-		Bitmap bitmap = getSmallBitmap(fileName, 400, 800);
+		Bitmap bitmap = getSmallBitmap(fileName, 400, 800, null);
 		return bitmap;
 	}
 
@@ -89,9 +104,12 @@ public class UtilsImage {
 	 * @param fileName
 	 * @param width
 	 * @param height
+	 * @param outputStream
 	 * @return
+	 * 
 	 */
-	public static Bitmap getSmallBitmap(String fileName, int width, int height) {
+	public static Bitmap getSmallBitmap(String fileName, int width, int height,
+			FileOutputStream outputStream) {
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true; // 设置为true，只读边框，不读内容
 		BitmapFactory.decodeFile(fileName, options);
@@ -103,8 +121,13 @@ public class UtilsImage {
 		options.inSampleSize = calculateInSampleSize(options, myWidth, myHeight);
 
 		options.inJustDecodeBounds = false;
-
-		return BitmapFactory.decodeFile(fileName, options);
+		if (outputStream == null) {
+			return BitmapFactory.decodeFile(fileName, options);
+		} else {
+			Bitmap bitmap = BitmapFactory.decodeFile(fileName, options);
+			bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outputStream);// 压缩质量
+			return bitmap;
+		}
 
 	}
 
@@ -116,8 +139,9 @@ public class UtilsImage {
 	 * @return
 	 * 
 	 */
-	public static Bitmap getCompressBitmap(String filePath) {
-		Bitmap bitmap = getCompressBitmap(filePath, 400, 800);
+	public static Bitmap getCompressBitmap(String filePath,
+			FileOutputStream outputStream) {
+		Bitmap bitmap = getCompressBitmap(filePath, 400, 800, outputStream);
 		return bitmap;
 	}
 
@@ -134,8 +158,8 @@ public class UtilsImage {
 	 * 
 	 */
 	public static Bitmap getCompressBitmap(String filePath, int width,
-			int height) {
-		Bitmap bitmap = getSmallBitmap(filePath, width, height);
+			int height, FileOutputStream outputStream) {
+		Bitmap bitmap = getSmallBitmap(filePath, width, height, outputStream);
 		if (bitmap != null) {
 			try {
 				ExifInterface exifInterface = new ExifInterface(filePath);

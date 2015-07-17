@@ -101,12 +101,9 @@ public class UtilsAsyncImageLoader {
 				outputStream.write(bs, 0, flag);
 			}
 
-			// 压缩大小
-			Bitmap smallBitmap = UtilsImage.getSmallBitmap(file
-					.getAbsolutePath());
-
-			// 压缩质量
-			smallBitmap.compress(Bitmap.CompressFormat.JPEG, 85, outputStream);
+			// 压缩
+			Bitmap smallBitmap = UtilsImage.getSmallBitmap(
+					file.getAbsolutePath(), outputStream);
 
 			view.setBackgroundDrawable(new BitmapDrawable(view.getResources(),
 					smallBitmap));
@@ -178,8 +175,8 @@ public class UtilsAsyncImageLoader {
 
 				loadImageFromUrl(imageView, imageUrl);
 				if (file.exists()) {
-					Bitmap smallBitmap = UtilsImage.getSmallBitmap(fileName);
 					FileOutputStream outputStream = null;
+					Bitmap smallBitmap = UtilsImage.getSmallBitmap(fileName);
 					try {
 						outputStream = new FileOutputStream(file);
 
