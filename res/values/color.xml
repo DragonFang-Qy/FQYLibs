@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 红色 -->
+    <color name="red">#ff0000</color>
+    <color name="green">#00ff00</color>
+    <color name="blue">#0000ff</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="orange">#FF7000</color>
+    <color name="transparent">#00000000</color>
+
+    <!-- 空气质量状况 -->
+    <color name="level_0">#00ff00</color>
+    <color name="level_1">#FFFF00</color>
+    <color name="level_2">#FF7F00</color>
+    <color name="level_3">#ff0000</color>
+    <color name="level_4">#9932CD</color>
+    <color name="level_5">#8E236B</color>
+
+</resources>

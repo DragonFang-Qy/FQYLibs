@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="notNetWorkHint">请检查您的网络</string>
+    <string name="isNetWorkHint">您的网络已开启</string>
+    <string name="ResponseCodeNot200">服务器异常，请稍后再试</string>
+
+    <!-- 登陆注册 -->
+    <string name="login_name_tag">账号</string>
+    <string name="login_name_hint">请输入您的账号</string>
+    <string name="login_password_tag">密码</string>
+    <string name="login_password_hint">请输入您的密码</string>
+    <string name="login">登陆</string>
+    <string name="register">注册</string>
+
+    <!-- 刷新 -->
+    <string name="header_time">刷新时间:%1$2s</string>
+
+</resources>
