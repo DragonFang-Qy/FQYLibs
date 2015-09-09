@@ -44,7 +44,8 @@ public class UtilsAsyncImageLoader {
 			imageCache = new LruCache<String, Drawable>(4 * 1024 * 1024);
 		}
 
-		FILEPATH = Environment.getDownloadCacheDirectory() + "/imageCache";
+		FILEPATH = Environment.getExternalStorageDirectory().getAbsolutePath()
+				+ "/" + filePath + "/imageCache";
 		makeDir();
 	}
 

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/ad_redio_bg_select" 
+        android:state_checked="true" 
+        android:state_enabled="true"/>
+     <item android:drawable="@drawable/ad_redio_bg_no_select" 
+        android:state_checked="false" 
+        android:state_enabled="true"/>
+
+</selector>

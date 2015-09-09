@@ -9,6 +9,7 @@
     <color name="white">#ffffff</color>
     <color name="orange">#FF7000</color>
     <color name="transparent">#00000000</color>
+    <color name="ad_adtext_bg">#66666666</color>
 
     <!-- 空气质量状况 -->
     <color name="level_0">#00ff00</color>
