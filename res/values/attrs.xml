@@ -11,13 +11,27 @@
         <attr name="background_title" format="reference" />
     </declare-styleable>
     <declare-styleable name="ADCarouselView">
-        <!-- <attr name="text_left" format="reference" /> -->
-        <!-- <attr name="text_right" format="reference" /> -->
-        <!-- <attr name="text_title" format="reference" /> -->
-        <!-- <attr name="background" format="reference" /> -->
-        <!-- <attr name="background_left" format="reference" /> -->
-        <!-- <attr name="background_right" format="reference" /> -->
-        <!-- <attr name="background_title" format="reference" /> -->
+
+        <!-- 底部背景颜色 -->
+        <attr name="Background_adll" format="reference" />
+        <!-- 标题文字大小 -->
+        <attr name="adText_Size" format="reference" />
+        <!-- 标题文本颜色 -->
+        <attr name="adText_Color" format="reference|color" />
+        <!-- 底部padding值 -->
+        <attr name="Bottom_Padding" format="reference" />
+        <!-- 底部paddingTop值 -->
+        <attr name="Bottom_PaddingTop" format="reference" />
+        <!-- 底部padding值Bottom -->
+        <attr name="Bottom_PaddingBottom" format="reference" />
+        <!-- 底部paddingLeft值 -->
+        <attr name="Bottom_PaddingLeft" format="reference" />
+        <!-- 底部paddingRight值 -->
+        <attr name="Bottom_PaddingRight" format="reference" />
+        <!-- 指示器未选中状态 图片 -->
+        <attr name="Bottom_adIndicateLLRes_NoSelect" format="reference" />
+        <!-- 指示器选中状态 图片 -->
+        <attr name="Bottom_adIndicateLLRes_Select" format="reference" />
     </declare-styleable>
 
 </resources>

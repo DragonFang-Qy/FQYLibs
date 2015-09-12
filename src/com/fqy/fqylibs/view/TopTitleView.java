@@ -294,7 +294,7 @@ public class TopTitleView extends RelativeLayout implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 
-		if (listerner == null) {
+		if (listerner != null) {
 			listerner.onTopTitleViewClickListener(v.getId());
 		}
 	}
@@ -412,4 +412,7 @@ public class TopTitleView extends RelativeLayout implements OnClickListener {
 		public void onTopTitleViewClickListener(int function);
 	}
 
+	public void setOnTopTitleViewListerner(OnTopTitleViewListerner listerner) {
+		this.listerner = listerner;
+	}
 }

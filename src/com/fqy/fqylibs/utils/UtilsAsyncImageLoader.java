@@ -1,7 +1,6 @@
 package com.fqy.fqylibs.utils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,11 +13,11 @@ import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.util.LruCache;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -35,6 +34,7 @@ import android.widget.ImageView;
 public class UtilsAsyncImageLoader {
 	private LruCache<String, Drawable> imageCache;
 	private static String FILEPATH;
+	private static String IMAGEENDWITH = ".jpg";
 
 	private ExecutorService service = Executors.newSingleThreadExecutor();
 
@@ -45,8 +45,9 @@ public class UtilsAsyncImageLoader {
 		}
 
 		FILEPATH = Environment.getExternalStorageDirectory().getAbsolutePath()
-				+ "/" + filePath + "/imageCache";
+				+ "/" + filePath + "/imageCache/";
 		makeDir();
+
 	}
 
 	/**
@@ -57,11 +58,15 @@ public class UtilsAsyncImageLoader {
 	 */
 	private static void makeDir() {
 		File fileDir = new File(FILEPATH);
+		File fileNoMFedia = new File(FILEPATH + ".nomedia");
 		if (!fileDir.exists()) {
 			fileDir.mkdirs();
 			try {// 屏蔽资源
-				new File(FILEPATH + ".nomedia").createNewFile();
-			} catch (IOException e) {
+				if (!fileNoMFedia.exists()) {
+					fileNoMFedia.createNewFile();
+				}
+			} catch (Exception e) {
+
 				e.printStackTrace();
 			}
 		}
@@ -74,10 +79,12 @@ public class UtilsAsyncImageLoader {
 	 * @date 2015年7月14日下午1:23:47
 	 * @param view
 	 * @param urlPath
+	 * @return
 	 */
 	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
-	public static <T extends View> void loadImageFromUrl(T view, String urlPath) {
+	public static <T extends View> Drawable loadImageFromUrl(T view,
+			String urlPath) {
 		InputStream stream = null;
 		File file = null;
 		FileOutputStream outputStream = null;
@@ -85,7 +92,8 @@ public class UtilsAsyncImageLoader {
 		try {
 			stream = new URL(urlPath).openStream();
 
-			file = new File(FILEPATH + UtilsMD5.GetMD5Code16(urlPath));
+			file = new File(FILEPATH + UtilsMD5.GetMD5Code16(urlPath)
+					+ IMAGEENDWITH);
 
 			if (!file.exists()) {
 				file.createNewFile();
@@ -109,17 +117,13 @@ public class UtilsAsyncImageLoader {
 			// 压缩质量
 			smallBitmap.compress(Bitmap.CompressFormat.JPEG, 85, outputStream);
 
-			view.setBackgroundDrawable(new BitmapDrawable(view.getResources(),
-					smallBitmap));
-			// Build.VERSION_CODES.JELLY_BEAN == 16 android 4.1
-			if (Build.VERSION.SDK_INT >= 16) {
-				view.setBackground(new BitmapDrawable(view.getResources(),
-						smallBitmap));
-			}
+			return new BitmapDrawable(view.getResources(), smallBitmap);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
+			return null;
 		} catch (IOException e) {
 			e.printStackTrace();
+			return null;
 		} finally {
 			try {
 
@@ -152,7 +156,8 @@ public class UtilsAsyncImageLoader {
 			final ImageView imageView) {
 
 		Drawable drawable = null;
-		fileName = FILEPATH + UtilsMD5.GetMD5Code16(imageUrl);
+
+		fileName = FILEPATH + UtilsMD5.GetMD5Code16(imageUrl) + IMAGEENDWITH;
 		file = new File(fileName);
 		if (file.exists()) {
 			drawable = new BitmapDrawable(imageView.getResources(),
@@ -173,49 +178,28 @@ public class UtilsAsyncImageLoader {
 			return;
 		}
 
-		imageView.setTag(imageUrl);
 		final Handler handler = new Handler() {
 			public void handleMessage(Message msg) {
-
-				loadImageFromUrl(imageView, imageUrl);
-				if (file.exists()) {
-					Bitmap smallBitmap = UtilsImage.getSmallBitmap(fileName);
-					FileOutputStream outputStream = null;
-					try {
-						outputStream = new FileOutputStream(file);
-
-						smallBitmap.compress(Bitmap.CompressFormat.JPEG, 85,
-								outputStream);
-
-						Drawable drawable = new BitmapDrawable(
-								imageView.getResources(), smallBitmap);
-
-						imageCache.put(fileName, drawable);
-
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-					} finally {
-						if (outputStream != null) {
-							try {
-								outputStream.close();
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
-						}
-					}
-				}
-
+				imageView.setImageDrawable((Drawable) msg.obj);
 			}
 		};
 		service.submit(new Runnable() {
 
 			@Override
 			public void run() {
-				Message message = new Message();
-				handler.sendMessage(message);
+				Drawable drawable = loadImageFromUrl(imageView, imageUrl);
+
+				if (drawable != null) {
+					imageCache.put(fileName, drawable);
+
+					Message message = handler.obtainMessage(0, drawable);
+
+					handler.sendMessage(message);
+				}
 			}
 
 		});
 
 	}
+
 }
